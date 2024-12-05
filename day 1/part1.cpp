@@ -14,8 +14,8 @@ int main() {
     std::string line;
     std::vector<int> firstColumn;
     std::vector<int> secondColumn;
+    std::regex pattern(R"((\d+)\s+(\d+))");
     while (std::getline(file, line)) {
-        std::regex pattern(R"((\d+)\s+(\d+))");
         std::smatch match;
 
         if (std::regex_search(line, match, pattern)) {
