@@ -6,9 +6,7 @@ bool checkPoint(const std::vector<std::string> &words, int x, int y, int maxX, i
     return x >= 0 && y >= 0 && x < maxX && y < maxY && words[x][y] == letter;
 }
 
-int findXmasWord(const std::vector<std::string> &words, int x, int y, int maxX, int maxY) {
-    int count = 0;
-
+bool findXmasWord(const std::vector<std::string> &words, int x, int y, int maxX, int maxY) {
     const std::vector<std::pair<int, int> > directions = {
         {-1, 1}, // right-up
         {-1, -1}, // left-up
@@ -30,10 +28,7 @@ int findXmasWord(const std::vector<std::string> &words, int x, int y, int maxX, 
         }
     }
 
-    if (countMletter == 2 && countSletter == 2 && words[x - 1][y - 1] != words[x + 1][y + 1]) {
-        ++count;
-    }
-    return count;
+    return countMletter == 2 && countSletter == 2 && words[x - 1][y - 1] != words[x + 1][y + 1];
 }
 
 int main() {
