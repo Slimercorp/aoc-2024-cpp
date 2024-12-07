@@ -24,7 +24,7 @@ int main() {
 
     int yaw = 0;
     std::unordered_map<std::string, int> visited;
-    while (x < map.size() && y < map[0].size()) {
+    while (x >= 0 && x < map.size() && y >= 0 && y < map[0].size()) {
         int nextX = x;
         int nextY = y;
         switch (yaw) {
