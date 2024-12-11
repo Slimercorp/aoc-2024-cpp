@@ -5,22 +5,23 @@
 #include <unordered_set>
 #include <deque>
 
-void calculateScoreForTrail(const std::string &node,
-                            std::unordered_set<std::string> &checkedNine,
+void calculateRatingForTrail(const std::string &node,
                             const std::unordered_map<std::string, char> &nodes,
-                            std::unordered_map<std::string, int> &scores,
+                            std::unordered_map<std::string, int> &ratings,
                             const std::unordered_map<std::string, std::vector<std::string> > &connections) {
+    std::unordered_set<std::string> checkedPaths;
     std::deque<std::string> nodesToCheckDeque;
     nodesToCheckDeque.push_back(node);
     while (!nodesToCheckDeque.empty()) {
         nodesToCheckDeque.clear();
         nodesToCheckDeque.push_back(node);
+        std::string path = node;
         while (!nodesToCheckDeque.empty()) {
             std::string checkNode = nodesToCheckDeque.front();
+            path.append(checkNode);
             nodesToCheckDeque.pop_front();
-            if (checkedNine.find(checkNode) == checkedNine.end() && nodes.at(checkNode) == '9') {
-                ++scores[node];
-                checkedNine.insert(checkNode);
+            if (checkedPaths.find(path) == checkedPaths.end() && nodes.at(checkNode) == '9') {
+                checkedPaths.insert(path);
                 break;
             }
 
@@ -31,6 +32,8 @@ void calculateScoreForTrail(const std::string &node,
             }
         }
     }
+
+    ratings[node] = checkedPaths.size();
 }
 
 bool checkDirection(std::vector<std::string> &map, int x, int y, int dx, int dy, int maxX, int maxY) {
@@ -89,18 +92,17 @@ int main() {
         }
     }
 
-    std::unordered_map<std::string, int> scores;
+    std::unordered_map<std::string, int> ratings;
     for (const std::string &node: nodesToCheck) {
-        std::unordered_set<std::string> checkedNine;
-        calculateScoreForTrail(node, checkedNine, nodes, scores, connections);
+        calculateRatingForTrail(node, nodes, ratings, connections);
     }
 
-    int generalScore = 0;
-    for (const auto &[_, score]: scores) {
-        generalScore += score;
+    int generalRating = 0;
+    for (const auto &[_, rating]: ratings) {
+        generalRating += rating;
     }
 
-    std::cout << generalScore << std::endl;
+    std::cout << generalRating << std::endl;
 
     return 0;
 }
